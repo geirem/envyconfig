@@ -21,14 +21,11 @@ setup(
     url='https://github.com/geirem/envyconfig',
     author='https://github.com/geirem',
     classifiers=[
-        # How mature is this project? Common values are
-        #   3 - Alpha
-        #   4 - Beta
-        #   5 - Production/Stable
+        # https://pypi.org/classifiers/
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Config Tools',
-        'License :: OSI Approved :: CC0',
+        'Topic :: Software Development',
+        'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3 :: Only',
     ],
