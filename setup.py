@@ -14,7 +14,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='envyconfig',
-    version='0.1.0',
+    version='0.2.2',
     description='YAML reader with ENV interpolation.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -32,7 +32,7 @@ setup(
     keywords='configtools development',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    python_requires='>=3.8, <4',
+    python_requires='>=3.8',
     extras_require={
         'test': ['pytest'],
     },

@@ -1,0 +1,2 @@
+class MissingInterpolationMethodException(Exception):
+    pass
