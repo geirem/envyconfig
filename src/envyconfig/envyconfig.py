@@ -39,6 +39,7 @@ def _get_interpolated(value: str, methods) -> str:
     interpolated = methods.get(method)(key)
     if interpolated is None:
         return default
+    return interpolated
 
 
 def _interpolate(parent: Any, child_key: Any, _methods) -> None:

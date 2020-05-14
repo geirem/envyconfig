@@ -13,7 +13,11 @@ def inject_method_loader(monkeypatch):
     monkeypatch.setattr(methods, '_configure_secret_manager', mock_configurer)
 
 
-@pytest.mark.skip('basic for now')
 def test_basic_gs():
-    config = envyconfig.load('fixtures/basic_gs.yaml')
-    assert config['bar'] == 'otherwise'
+    config = envyconfig.load('fixtures/basic_gs.yaml', configure_methods=['gs'])
+    assert config['bar'] == 'projects/my-project/secrets/my-secret/'
+
+
+def test_nested_gs():
+    config = envyconfig.load('fixtures/nested_gs.yaml', configure_methods=['gs'])
+    assert config['foo']['bar'] == 'projects/my-project/secrets/my-secret/'

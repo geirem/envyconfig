@@ -32,9 +32,8 @@ def _gsecrets(secrets, coords: str) -> str:
 def _configure_secret_manager() -> Methods:
     try:
         from google.cloud import secretmanager
+        from google.auth.exceptions import DefaultCredentialsError
         secrets = secretmanager.SecretManagerServiceClient()
     except NameError:
-        return {'gs': lambda s: f'ERR: Optional extra "google.cloud.secretmanager" is not available.'}
-    except Exception as e:
-        return {'gs': lambda s: f'ERR: {e}'}
+        raise Exception('ERR: Requested extra "google.cloud.secretmanager" is not available.')
     return {'gs': lambda s: _gsecrets(secrets, s)}
