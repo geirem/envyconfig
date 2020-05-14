@@ -1,0 +1,2 @@
+class UnsupportedInterpolationError(Exception):
+    pass
