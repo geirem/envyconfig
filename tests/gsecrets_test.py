@@ -15,9 +15,14 @@ def inject_method_loader(monkeypatch):
 
 def test_basic_gs():
     config = envyconfig.load('fixtures/basic_gs.yaml', configure_methods=['gs'])
-    assert config['bar'] == 'projects/my-project/secrets/my-secret/'
+    assert config['bar'] == 'projects/my-project/secrets/my-secret/versions/1'
 
 
 def test_nested_gs():
     config = envyconfig.load('fixtures/nested_gs.yaml', configure_methods=['gs'])
-    assert config['foo']['bar'] == 'projects/my-project/secrets/my-secret/'
+    assert config['foo']['bar'] == 'projects/my-project/secrets/my-secret/versions/1'
+
+
+def test_that_we_can_specify_a_secret_version():
+    config = envyconfig.load('fixtures/basic_gs.yaml', configure_methods=['gs'])
+    assert config['foo'] == 'projects/my-project/secrets/my-secret/versions/2'

@@ -20,13 +20,11 @@ def _gsecrets(secrets, coords: str) -> str:
     if coords[0] != '/':
         raise Exception(f'ERR: Unrecognized GS coordinate {coords}.')
     parts = coords[1:].split('/')
-    if len(parts) < 2:
-        raise Exception(f'Need project and secret name for method "gs", got {coords}.')
-    path = f'projects/{parts[0]}/secrets/{parts[1]}/'
-    if len(parts) == 3:
-        path += f'versions/{parts[2]}/'
-    secret = secrets.access_secret_version(path).payload.data.decode("utf-8")
-    return secret
+    if len(parts) not in [2, 3]:
+        raise Exception(f'Need project and secret name, and optional version, for method "gs", got {coords}.')
+    version = 1 if len(parts) == 2 else parts[2]
+    path = f'projects/{parts[0]}/secrets/{parts[1]}/versions/{version}'
+    return secrets.access_secret_version(path).payload.data.decode("utf-8")
 
 
 def _configure_secret_manager() -> Methods:

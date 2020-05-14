@@ -1,1 +1,2 @@
 bar: ${gs:/my-project/my-secret:otherwise}
+foo: ${gs:/my-project/my-secret/2:otherwise}
