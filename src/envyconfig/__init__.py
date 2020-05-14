@@ -1,1 +1,1 @@
-from . import envyconfig
+from .envyconfig import load

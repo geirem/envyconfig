@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any, Tuple, Union, List
 
 import yaml
 
@@ -6,15 +6,16 @@ from .exceptions.UnsupportedInterpolationError import UnsupportedInterpolationEr
 from .methods import _configure_methods
 
 
-def load(config_file: str, flatten: bool = False, override: dict = None, configure_methods=True):
+def load(config_file: str, flatten: bool = False, override: dict = None, configure_methods: Union[List, str] = 'env'):
     """
     :param config_file: Resolvable path of the YAML file containing the config.
     :param (optional) flat_map: Boolean value, truthy if you want to flatten the config file.
     :param (optional) override: Map of values to use instead of the config file.
+    :param (optional) configure_methods: List of interpolation methods to use.
     """
     with open(config_file, 'r') as inimage:
         config = yaml.safe_load(inimage)
-        _interpolate_leafs(config, _configure_methods(configure_methods))
+        _interpolate_leafs(config, _configure_methods([configure_methods] if type(configure_methods) is str else configure_methods))
         if flatten:
             config = _flatten(config)
         if override:

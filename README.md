@@ -9,8 +9,8 @@ Builds on the PyYAML package, with the following additions:
 
 ## Usage
 ```python
-import src.envyconfig.ConfigLoader as ConfigLoader
-
-def get_config(config_file: str, extra_args: dict) -> dict:
-    return ConfigLoader(config_file, flat_map=True, args=extra_args).load()
+>>> import envyconfig
+>>> config = envyconfig.load('config.yaml')
+>>> print(config)
+{'foo': {'bar': 'baz'}}
 ```
