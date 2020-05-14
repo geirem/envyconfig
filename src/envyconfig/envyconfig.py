@@ -1,19 +1,11 @@
-import os
 from typing import Any, Tuple
-
-from google.cloud import secretmanager
 
 import yaml
 
-from .exceptions import MissingInterpolationMethodException
+from .exceptions.MissingInterpolationMethodException import MissingInterpolationMethodException
+from .methods import _configure_methods
 
-_secrets = secretmanager.SecretManagerServiceClient()
-_methods = {
-    'env': lambda s: os.environ[s],
-    'gs': lambda s: _secrets.access_secret_version(
-        f"projects/dbd-sandbox-o9c/secrets/{s}/versions/1"
-    ).payload.data.decode("utf-8")
-}
+_methods = _configure_methods()
 
 
 def load(config_file: str, flatten: bool = False, override: dict = None):

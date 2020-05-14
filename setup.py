@@ -14,12 +14,13 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='envyconfig',
-    version='0.2.2',
+    version='0.3.0',
     description='YAML reader with ENV interpolation.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/geirem/envyconfig',
     author='https://github.com/geirem',
+    author_email='geiremb@gmail.com',
     classifiers=[
         # https://pypi.org/classifiers/
         'Development Status :: 3 - Alpha',
@@ -35,6 +36,7 @@ setup(
     python_requires='>=3.8',
     extras_require={
         'test': ['pytest'],
+        'googlesecrets': ["google-cloud-secret-manager"]
     },
     project_urls={  # Optional
         'Bug Reports': 'https://github.com/geirem/envyconfig/issues',
