@@ -14,3 +14,8 @@ def test_nested():
 def test_flattened():
     config = envyconfig.load('fixtures/basic_nested.yaml', configure_methods=[], flatten=True)
     assert config['bar'] == 'baz'
+
+
+def test_empty_value():
+    config = envyconfig.load('fixtures/basic.yaml', configure_methods=[])
+    assert config['baz'] == ''
