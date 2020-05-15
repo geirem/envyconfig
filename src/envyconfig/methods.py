@@ -1,19 +1,20 @@
 import os
 from types import LambdaType
-from typing import Dict, List
+from typing import Dict, List, Callable
 
 Methods = Dict[str, LambdaType]
 
+_methods = {}
 
-def _configure_methods(configure_methods: List) -> dict:
-    methods = {}
-    if len(configure_methods) == 0:
-        return methods
-    if 'env' in configure_methods:
-        methods.update({'env': lambda s: None if not s in os.environ else os.environ[s]})
-    if 'gs' in configure_methods:
-        methods.update(_configure_secret_manager())
-    return methods
+
+def _configure_methods(method: str) -> Callable:
+    if method in _methods:
+        return _methods[method]
+    if 'env' == method:
+        _methods.update({'env': lambda s: None if not s in os.environ else os.environ[s]})
+    if 'gs' == method:
+        _methods.update(_configure_secret_manager())
+    return _methods[method]
 
 
 def _gsecrets(secrets, coords: str) -> str:
