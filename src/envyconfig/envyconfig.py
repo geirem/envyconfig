@@ -1,4 +1,4 @@
-from typing import Any, Tuple, Union, List
+from typing import Any, Tuple
 
 import yaml
 
