@@ -1,5 +1,7 @@
-# pyconfig
-Python package for YAML config files.  Reads a specified YAML file, and returns the corresponding dict structure.
+# envyconfig
+Envyconfig is a python package for reading YAML config files with pointers to external keys.  It reads the specified YAML file, fetches data from the configured sources, and returns the corresponding dict structure.
+
+The primary purpose is to allow keys to secret configuration items to be stored in the YAML file, for ease of use during program loading.
 
 Builds on the PyYAML package, with the following additions:
 * Environment variables can be specified as config values.
