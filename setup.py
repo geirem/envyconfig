@@ -13,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='envyconfig',
-    version='0.3.2',
+    version='0.4.0',
     description='YAML reader with ENV interpolation.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -22,7 +22,7 @@ setup(
     author_email='geiremb@gmail.com',
     classifiers=[
         # https://pypi.org/classifiers/
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Topic :: Software Development',
         'License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication',
