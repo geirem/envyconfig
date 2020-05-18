@@ -32,7 +32,7 @@ def _get_interpolated(value: str) -> str:
         return value
     if '${' + (name := value[2:-1]) + '}' != value:
         return value
-    method, key, default = name.split(':')
+    method, key, default = name.split(':', 2)
     interpolated = methods(method)(key)
     if interpolated is None:
         return default
