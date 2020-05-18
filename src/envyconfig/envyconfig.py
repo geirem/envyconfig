@@ -1,21 +1,20 @@
-from typing import Any, Tuple, Union, List
+from typing import Any, Tuple
 
 import yaml
 
-from .exceptions.UnsupportedInterpolationError import UnsupportedInterpolationError
-from .methods import _configure_methods
+from .methods import _configure_methods as methods
 
 
-def load(config_file: str, flatten: bool = False, override: dict = None, configure_methods: Union[List, str] = 'env'):
+def load(config_file: str, flatten: bool = False, override: dict = None):
     """
     :param config_file: Resolvable path of the YAML file containing the config.
-    :param (optional) flat_map: Boolean value, truthy if you want to flatten the config file.
+    :param (optional) flatten: Boolean value, truthy if you want to flatten the config file.
     :param (optional) override: Map of values to use instead of the config file.
     :param (optional) configure_methods: List of interpolation methods to use.
     """
     with open(config_file, 'r') as inimage:
         config = yaml.safe_load(inimage)
-        _interpolate_leafs(config, _configure_methods([configure_methods] if type(configure_methods) is str else configure_methods))
+        _interpolate_leafs(config)
         if flatten:
             config = _flatten(config)
         if override:
@@ -23,33 +22,31 @@ def load(config_file: str, flatten: bool = False, override: dict = None, configu
         return config
 
 
-def _interpolate_leafs(config: dict, methods) -> None:
+def _interpolate_leafs(config: dict) -> None:
     for child_key in config.keys():
-        _interpolate(config, child_key, methods)
+        _interpolate(config, child_key)
 
 
-def _get_interpolated(value: str, methods) -> str:
+def _get_interpolated(value: str) -> str:
     if len(value) < 3:
         return value
     if '${' + (name := value[2:-1]) + '}' != value:
         return value
     method, key, default = name.split(':')
-    if method not in methods:
-        raise UnsupportedInterpolationError(f'Method {method} is not supported.')
-    interpolated = methods.get(method)(key)
+    interpolated = methods(method)(key)
     if interpolated is None:
         return default
     return interpolated
 
 
-def _interpolate(parent: Any, child_key: Any, _methods) -> None:
+def _interpolate(parent: Any, child_key: Any) -> None:
     child = parent[child_key]
     if (t := type(child)) is str:
-        parent[child_key] = _get_interpolated(child, _methods)
+        parent[child_key] = _get_interpolated(child)
         return
     if t is list or t is dict:
         for v in range(len(child)) if t is list else child.keys():
-            _interpolate(child, v, _methods)
+            _interpolate(child, v)
 
 
 def _flatten(config) -> dict:
