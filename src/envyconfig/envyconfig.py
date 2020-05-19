@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any, Tuple, Union, Optional
 
 import yaml
 
@@ -32,11 +32,35 @@ def _get_interpolated(value: str) -> str:
         return value
     if '${' + (name := value[2:-1]) + '}' != value:
         return value
-    method, key, default = name.split(':', 2)
+    parts = value.count(':')
+    if parts >= 2:
+        method, key, default = name.split(':', 2)
+    elif parts == 1:
+        method, key = name.split(':')
+        default = None
+    else:
+        raise Exception(f'Need at least a method and name for interpolation, got {value}.')
     interpolated = methods(method)(key)
     if interpolated is None:
-        return default
+        return _type_interpolated(default)
     return interpolated
+
+
+def _type_interpolated(value: Optional[str]) -> Optional[Union[str, int, bool, float]]:
+    """ Using default value, let's look at it."""
+    if value is None:
+        return None
+    if value.capitalize() == 'True':
+        return True
+    if value.capitalize() == 'False':
+        return False
+    if value.isdigit():
+        return int(value)
+    try:
+        return float(value)
+    except ValueError:
+        pass
+    return value
 
 
 def _interpolate(parent: Any, child_key: Any) -> None:
