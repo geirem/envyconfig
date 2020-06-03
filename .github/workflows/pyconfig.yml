@@ -39,12 +39,15 @@ jobs:
         pytest tests
     - name: Deploy test version to PyPI test.
       if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.TEST_PYPI }}
-          repository_url: https://upload.pypi.org/legacy/
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.TEST_PYPI }}
+        repository_url: https://upload.pypi.org/legacy/
     - name: Publish distribution 📦 to PyPI
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@master
-        with:
-          password: ${{ secrets.pypi_password }}
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.pypi_password }}
+        user: __token__
+
