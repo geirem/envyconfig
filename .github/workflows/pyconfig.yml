@@ -51,5 +51,5 @@ jobs:
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
       with:
-        password: ${{ secrets.pypi_password }}
+        password: ${{ secrets.PYPI }}
         user: __token__
