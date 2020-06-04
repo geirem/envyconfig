@@ -40,15 +40,9 @@ jobs:
     - name: Reinvent the wheel
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
-        echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
+        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        echo $VERSION
         python setup.py --set-version=$VERSION sdist bdist_wheel
-#    - name: Deploy test version to PyPI test.
-#      if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-#      uses: pypa/gh-action-pypi-publish@master
-#      with:
-#        user: __token__
-#        password: ${{ secrets.TEST_PYPI }}
-#        repository_url: https://test.pypi.org/legacy/
     - name: Publish distribution 📦 to PyPI
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
