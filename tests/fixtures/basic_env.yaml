@@ -1,1 +1,8 @@
 foo: ${env:TESTENVVAR:bar}
+bar:
+  baz1: ${env:BAR:false}
+  baz2: ${env:BAR:true}
+  baz3: ${env:BAR:1232}
+  baz4: ${env:BAR:1232.2}
+  baz5: ${env:BAR:abcd}
+  baz6: ${env:BAR}
