@@ -27,4 +27,4 @@ jobs:
       run: |
         echo ${GITHUB_REF}
         echo ${GITHUB_REF#refs/*/}
-        python setup.py --version=${GITHUB_REF#refs/*/} sdist bdist_wheel
+        python setup.py --set-version==${GITHUB_REF#refs/*/} sdist bdist_wheel
