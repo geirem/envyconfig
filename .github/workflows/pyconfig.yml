@@ -5,12 +5,7 @@ name: Python application
 
 on:
   push:
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - '.github/**'
   pull_request:
-    branches: [ master, develop ]
 
 jobs:
   build:
@@ -26,32 +21,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest setuptools wheel
-        pip install -r requirements.txt
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest tests
+        pip install setuptools wheel
     - name: Reinvent the wheel
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
-        echo ::set-env name=VERSION::${GITHUB_REF#refs/*/}
-        python setup.py sdist bdist_wheel
-#    - name: Deploy test version to PyPI test.
-#      if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-#      uses: pypa/gh-action-pypi-publish@master
-#      with:
-#        user: __token__
-#        password: ${{ secrets.TEST_PYPI }}
-#        repository_url: https://test.pypi.org/legacy/
-    - name: Publish distribution 📦 to PyPI
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI }}
-        user: __token__
+        echo ${GITHUB_REF}
+        echo ${GITHUB_REF#refs/*/}
+        python setup.py --version=${GITHUB_REF#refs/*/} sdist bdist_wheel
