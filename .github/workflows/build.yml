@@ -25,6 +25,8 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
+        python -m venv $(pwd)
+        . ./venv/bin/activate
         python -m pip install --upgrade pip
         pip install flake8 pytest setuptools wheel
         pip install -r requirements.txt
@@ -36,7 +38,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest tests
+        pytest
     - name: Reinvent the wheel
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |

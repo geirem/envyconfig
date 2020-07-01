@@ -3,7 +3,6 @@ from types import LambdaType
 from typing import Dict, Callable
 
 from src.envyconfig.exceptions.ConfigurationError import ConfigurationError
-from src.envyconfig.lib.VaultBroker import VaultBroker
 
 Methods = Dict[str, Callable]
 
@@ -44,6 +43,7 @@ def _configure_gcp_secret_manager() -> Methods:
 
 
 def _configure_hashicorp_vault() -> Methods:
+    from src.envyconfig.lib.VaultBroker import VaultBroker
     vault_addr, vault_token = os.environ['VAULT_ADDR'], os.environ['VAULT_TOKEN']
     if not vault_addr or not vault_token:
         raise ConfigurationError('Missing configuration for Vault integration: VAULT_ADDR and VAULT_TOKEN must be set.')
