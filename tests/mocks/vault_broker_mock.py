@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import requests
 
-from src.envyconfig.lib.VaultBroker import VaultBroker
+from src.envyconfig.lib import VaultBroker
 
 Response = namedtuple('Response', ['status_code', 'text', 'json'])
 
