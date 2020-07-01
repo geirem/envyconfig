@@ -1,0 +1,2 @@
+foo: ${vault:/foo/bar/baz/my_secret/foo_secret:otherwise}
+older_foo: ${vault:/foo/bar/baz/my_secret/foo_secret?1:older_otherwise}

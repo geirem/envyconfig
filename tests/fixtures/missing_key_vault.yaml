@@ -1,0 +1,1 @@
+baz: ${vault:/foo/bar/baz/my_secret/baz_secret:otherwise}
