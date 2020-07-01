@@ -10,7 +10,6 @@ def load(config_file: str, flatten: bool = False, override: dict = None):
     :param config_file: Resolvable path of the YAML file containing the config.
     :param (optional) flatten: Boolean value, truthy if you want to flatten the config file.
     :param (optional) override: Map of values to use instead of the config file.
-    :param (optional) configure_methods: List of interpolation methods to use.
     """
     with open(config_file, 'r') as inimage:
         config = yaml.safe_load(inimage)
