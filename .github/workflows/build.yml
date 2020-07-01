@@ -31,18 +31,17 @@ jobs:
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --exclude .venv --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 . --exclude .venv --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest tests
+        pytest
     - name: Reinvent the wheel
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: |
-        echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-        echo $VERSION
-        python setup.py --set-version=$VERSION sdist bdist_wheel
+        . .venv/bin/activate
+        python setup.py --set-version==${GITHUB_REF#refs/*/} sdist bdist_wheel
     - name: Publish distribution 📦 to PyPI
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master

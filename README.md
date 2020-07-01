@@ -21,10 +21,18 @@ Builds on the PyYAML package, with the following additions:
 ### Sample config file.
 ```yaml
 foo:
-   # Loads "bar" from secret "my-secret" in the "my-project" GCP project.  Defaults to "otherwise".
-   bar: ${gs:/my-project/my-secret:otherwise}
-   # Loads "baz" from the environment variable "ENVVAR".  Defaults to "something_else".
-   baz: ${env:ENVVAR:something_else}
+
+   # Google Cloud Secret Manager: Loads "bar" from secret "bar" in the "my-project"
+   #  GCP project.  Defaults to "otherwise".
+   bar: ${gs:/my-project/bar:otherwise}
+   
+   # Environment variables: Loads "baz" from the environment variable "BAZ".  
+   # to "something_else".
+   baz: ${env:BAZ:something_else}
+   
+   # HashiCorp Vault: Loads "bam" from the secret "bam" mounted Vault mount
+   # "/path/to/secrets/mount/my-secrets/".  Defaults to "completely_different".
+   bam: ${vault:/path/to/secrets/mount/my-secrets/bam:completely_different}
 ```
 
 
@@ -50,5 +58,7 @@ the appropriate credentials.
 
 #### Credits and further documentation
 * [GCP Python Secret Manager](https://github.com/googleapis/python-secret-manager)
+* [Python Environment Variables](https://docs.python.org/3/using/cmdline.html#environment-variables)
+* [HashiCorp Vault](https://www.vaultproject.io/)
 * [PyYAML](https://pyyaml.org)
 * [EnvyConfig](https://github.com/geirem/envyconfig/)
