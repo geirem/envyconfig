@@ -2,7 +2,7 @@ from mocks.gs_mock import MockSecrets
 from src.envyconfig import envyconfig
 import pytest
 
-from src.envyconfig.methods import _gcp_secrets, _configure_gcp_secret_manager
+from src.envyconfig.methods import _gcp_secrets
 from src.envyconfig import methods
 
 

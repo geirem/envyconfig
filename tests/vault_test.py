@@ -1,39 +1,28 @@
 import pytest
 
+from mocks.vault_broker_mock import VaultBrokerMock
 from src.envyconfig import envyconfig
 from src.envyconfig.exceptions.ConfigurationError import ConfigurationError
 from src.envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
+from src.envyconfig import methods
 
 
-@pytest.fixture(name='environment')
+@pytest.fixture(name='broker')
+def create_broker(environment):
+    broker = VaultBrokerMock(environment)
+
+    def mock_configurer():
+        return {'vault': lambda s: broker(s)}
+    methods._methods = {}
+    environment.setattr(methods, '_configure_hashicorp_vault', mock_configurer)
+    return broker
+
+
+@pytest.fixture(name='environment', autouse=True)
 def prepare_environment(monkeypatch):
     monkeypatch.setenv("VAULT_ADDR", 'http://localhost:8200/v1')
     monkeypatch.setenv("VAULT_TOKEN", 's.KfdLkD3zeAEXnrRreJxzojDE')
     return monkeypatch
-
-
-def positive_result_setup():
-    data = {
-        "request_id": "6b8620df-b47b-e501-3691-9a6ef848095f",
-        "lease_id": "",
-        "renewable": False,
-        "lease_duration": 0,
-        "data": {
-            "data": {
-                "bar_secret": "aosdifjoaidsf",
-                "foo_secret": "1235\n2"
-            },
-            "metadata": {
-                "created_time": "2020-07-01T07:41:56.302189Z",
-                "deletion_time": "",
-                "destroyed": False,
-                "version": 2
-            }
-        },
-        "wrap_info": None,
-        "warnings": None,
-        "auth": None
-    }
 
 
 def test_that_we_handle_missing_token_in_config(environment):
@@ -48,23 +37,53 @@ def test_that_we_handle_missing_address_in_config(environment):
         envyconfig.load('tests/fixtures/basic_vault.yaml')
 
 
-def test_with_vault(environment):
+def test_with_vault(broker):
     expected = '1235\n2'
+    broker.setup(
+        {
+            "data": {
+                "foo_secret": expected
+            },
+            'version': 2,
+            'status_code': 200,
+        }
+    )
     config = envyconfig.load('tests/fixtures/basic_vault.yaml')
     assert config['foo'] == expected
 
 
-def test_with_older_version_in_vault(environment):
+def test_with_older_version_in_vault(broker):
     expected = '1235\n'
+    broker.setup(
+        {
+            "data": {
+                "foo_secret": expected
+            },
+            'version': 1,
+            'status_code': 200,
+        }
+    )
     config = envyconfig.load('tests/fixtures/basic_vault.yaml')
     assert config['older_foo'] == expected
 
 
-def test_with_missing_secret_in_vault(environment):
+def test_with_missing_secret_in_vault(broker):
+    broker.setup(
+        {
+            "data": {},
+            'status_code': 404,
+        }
+    )
     with pytest.raises(SecretNotFoundError):
         envyconfig.load('tests/fixtures/missing_vault.yaml')
 
 
-def test_with_missing_secret_key_in_vault(environment):
+def test_with_missing_secret_key_in_vault(broker):
+    broker.setup(
+        {
+            "data": {},
+            'status_code': 200,
+        }
+    )
     with pytest.raises(SecretNotFoundError):
         envyconfig.load('tests/fixtures/missing_key_vault.yaml')
