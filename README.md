@@ -9,6 +9,8 @@ Builds on the PyYAML package, with the following additions:
 * Nested YAML structures can be flattened to get a simple key / value dict.
 * Default values can be specified, for instance from the command line.
 
+Requires Python 3.8 or higher.
+
 
 ## Basic Usage
 ```python
