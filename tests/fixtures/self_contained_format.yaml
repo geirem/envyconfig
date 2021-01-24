@@ -1,0 +1,4 @@
+format: will_appear
+foo: ${format:This string will be {interpolated}.}
+bar:
+  baz1: ${format:This string will also be {interpolated}.}

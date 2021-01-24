@@ -9,17 +9,18 @@ Methods = Dict[str, Callable]
 
 _methods = {}
 
-
 # noinspection PyDeepBugsBinOperand
-def _configure_methods(method: str) -> LambdaType:
+def _configure_methods(method: str, *args, **kwargs) -> LambdaType:
     if method in _methods:
         return _methods[method]
     if 'env' == method:
-        _methods.update({'env': lambda s: None if not s in os.environ else os.environ[s]})
+        _methods.update({'env': lambda s: None if s not in os.environ else os.environ[s]})
     if 'gs' == method:
         _methods.update(_configure_gcp_secret_manager())
     if 'vault' == method:
         _methods.update(_configure_hashicorp_vault())
+    if 'format' == method:
+        _methods.update({'format': Interpolator(kwargs['override'])})
     return _methods[method]
 
 
@@ -87,3 +88,13 @@ class VaultBroker:
         if key not in (s_map := self._seen_coords[url]):
             raise SecretNotFoundError(f'ERR: HashiCorp Vault secret {key} not found at {coords}.')
         return s_map[key]
+
+
+class Interpolator:
+
+    def __init__(self, format_strings: dict) -> None:
+        self._format_strings = format_strings
+
+    def __call__(self, *args, **kwargs) -> Any:
+        config_string = args[0]
+        return config_string.format(**self._format_strings)
