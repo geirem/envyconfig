@@ -3,25 +3,6 @@ See:
 https://packaging.python.org/guides/distributing-packages-using-setuptools/
 """
 
-import sys
-
-
-# Allows override on the CLI by setting the --set-version=<version> option.
-def get_version(default_version='0.9.1'):
-    version_prefix = '--set-version='
-    version_args = [arg for arg in sys.argv if arg.startswith(version_prefix)]
-    if len(version_args) == 1:
-        version_arg = version_args.pop()
-        sys.argv.remove(version_arg)
-        return version_arg.replace(version_prefix, '')
-    if len(version_args) > 1:
-        print(f'ERR: Multiple set-version arguments supplied: {version_args}.', file=sys.stderr)
-        sys.exit(1)
-    return default_version
-
-
-VERSION = get_version()
-
 from setuptools import setup, find_packages
 from os import path
 
@@ -32,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='envyconfig',
-    version=VERSION,
+    version='1.0.0',
     description='YAML reader with ENV interpolation.',
     long_description=long_description,
     long_description_content_type='text/markdown',

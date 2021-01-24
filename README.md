@@ -43,6 +43,8 @@ You indicate the values you want interpolated by one of the configured engines t
 `${<method>:<key>:<default>}`, such as `${env:MY_VAR:my_default}`.  The currently supported engines are
 * environment (`os.environ`) variables (key: `env`), and
 * Google Secret Manager (key: `gs`).
+* HashiCorp Vault
+* Format strings for run-time interpolation.
 The engines are lazy-loaded, so unless you request interpolation by one of them, the configuration is not loaded.
 This is useful for advanced engines (presently `gs`), that rely on external libraries and configuration.
 
