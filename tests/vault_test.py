@@ -1,10 +1,9 @@
 import pytest
 
 from mocks.vault_broker_mock import VaultBrokerMock
-from src.envyconfig import envyconfig
-from src.envyconfig.exceptions.ConfigurationError import ConfigurationError
-from src.envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
-from src.envyconfig import methods
+from src import envyconfig, methods
+from src import ConfigurationError
+from src.exceptions.SecretNotFoundError import SecretNotFoundError
 
 
 @pytest.fixture(name='broker')

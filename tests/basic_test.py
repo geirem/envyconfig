@@ -1,4 +1,4 @@
-from src.envyconfig import envyconfig
+from src import envyconfig
 
 
 def test_basic():

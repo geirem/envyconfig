@@ -11,10 +11,11 @@ Builds on the PyYAML package, with the following additions:
 
 
 ## Basic Usage
+
 ```python
->>> import envyconfig
->>> config = envyconfig.load('config.yaml')
->>> print(config)
+>> > import src
+>> > config = src.load('config.yaml')
+>> > print(config)
 {'foo': {'bar': 'baz'}}
 ```
 

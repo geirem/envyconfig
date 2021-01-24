@@ -1,4 +1,4 @@
-from src.envyconfig import envyconfig
+import envyconfig
 
 
 def test_use_default_when_env_var_is_not_defined():

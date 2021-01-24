@@ -1,8 +1,8 @@
-from typing import Any, Tuple, Union, Optional
+from typing import Any, Tuple, Union, Optional, Generator
 
 import yaml
 
-from .methods import _configure_methods as methods
+from methods import _configure_methods as methods
 
 
 def load(config_file: str, flatten: bool = False, override: dict = None):
@@ -76,7 +76,7 @@ def _flatten(config) -> dict:
     return {k: v for k, v in _flatten_dict(config)}
 
 
-def _flatten_dict(pyobj, keystring='') -> Tuple[str, Any]:
+def _flatten_dict(pyobj, keystring='') -> Generator[Tuple[str, Any]]:
     if type(pyobj) is dict:
         for k in pyobj:
             yield from _flatten_dict(pyobj[k], str(k))

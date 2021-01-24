@@ -7,7 +7,7 @@ import sys
 
 
 # Allows override on the CLI by setting the --set-version=<version> option.
-def get_version(default_version='0.9.0'):
+def get_version(default_version='0.9.1'):
     version_prefix = '--set-version='
     version_args = [arg for arg in sys.argv if arg.startswith(version_prefix)]
     if len(version_args) == 1:

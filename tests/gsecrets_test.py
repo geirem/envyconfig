@@ -1,9 +1,8 @@
 from mocks.gs_mock import MockSecrets
-from src.envyconfig import envyconfig
+from src import envyconfig, methods
 import pytest
 
-from src.envyconfig.methods import _gcp_secrets
-from src.envyconfig import methods
+from src import _gcp_secrets
 
 
 @pytest.fixture(autouse=True)

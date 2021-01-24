@@ -2,8 +2,8 @@ import os
 from types import LambdaType
 from typing import Dict, Callable
 
-from src.envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
-from src.envyconfig.exceptions.ConfigurationError import ConfigurationError
+from envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
+from envyconfig import ConfigurationError
 
 Methods = Dict[str, Callable]
 
