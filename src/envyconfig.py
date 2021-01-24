@@ -76,7 +76,7 @@ def _flatten(config) -> dict:
     return {k: v for k, v in _flatten_dict(config)}
 
 
-def _flatten_dict(pyobj, keystring='') -> Generator[Tuple[str, Any]]:
+def _flatten_dict(pyobj, keystring='') -> Generator[Tuple[str, Any], None, None]:
     if type(pyobj) is dict:
         for k in pyobj:
             yield from _flatten_dict(pyobj[k], str(k))

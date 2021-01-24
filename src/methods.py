@@ -1,15 +1,16 @@
 import os
 from types import LambdaType
-from typing import Dict, Callable
+from typing import Dict, Callable, Any
 
-from envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
-from envyconfig import ConfigurationError
+from exceptions.SecretNotFoundError import SecretNotFoundError
+from exceptions.ConfigurationError import ConfigurationError
 
 Methods = Dict[str, Callable]
 
 _methods = {}
 
 
+# noinspection PyDeepBugsBinOperand
 def _configure_methods(method: str) -> LambdaType:
     if method in _methods:
         return _methods[method]
@@ -44,7 +45,6 @@ def _configure_gcp_secret_manager() -> Methods:
 
 
 def _configure_hashicorp_vault() -> Methods:
-
     vault_addr, vault_token = os.environ['VAULT_ADDR'], os.environ['VAULT_TOKEN']
     if not vault_addr or not vault_token:
         raise ConfigurationError('Missing configuration for Vault integration: VAULT_ADDR and VAULT_TOKEN must be set.')
@@ -58,12 +58,12 @@ def _hashicorp_vault(vault_broker, coords: str) -> str:
 
 class VaultBroker:
 
-    def __init__(self, vault_addr: str, vault_token: str):
+    def __init__(self, vault_addr: str, vault_token: str) -> None:
         self._vault_addr = vault_addr
         self._vault_token = vault_token
         self._seen_coords = {}
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs) -> Any:
         import requests
         coords = args[0]
         parts = coords.split('?')

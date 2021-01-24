@@ -4,6 +4,8 @@ from collections import namedtuple
 
 import requests
 
+from methods import VaultBroker
+
 Response = namedtuple('Response', ['status_code', 'text', 'json'])
 
 

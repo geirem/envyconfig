@@ -1,9 +1,10 @@
 import pytest
 
 from mocks.vault_broker_mock import VaultBrokerMock
-from src import envyconfig, methods
-from src import ConfigurationError
-from src.exceptions.SecretNotFoundError import SecretNotFoundError
+import envyconfig
+import methods
+from exceptions.ConfigurationError import ConfigurationError
+from exceptions.SecretNotFoundError import SecretNotFoundError
 
 
 @pytest.fixture(name='broker')
@@ -27,13 +28,13 @@ def prepare_environment(monkeypatch):
 def test_that_we_handle_missing_token_in_config(environment):
     environment.setenv("VAULT_TOKEN", '')
     with pytest.raises(ConfigurationError):
-        envyconfig.load('tests/fixtures/basic_vault.yaml')
+        envyconfig.load('fixtures/basic_vault.yaml')
 
 
 def test_that_we_handle_missing_address_in_config(environment):
     environment.setenv("VAULT_ADDR", '')
     with pytest.raises(ConfigurationError):
-        envyconfig.load('tests/fixtures/basic_vault.yaml')
+        envyconfig.load('fixtures/basic_vault.yaml')
 
 
 def test_with_vault(broker):
@@ -47,7 +48,7 @@ def test_with_vault(broker):
             'status_code': 200,
         }
     )
-    config = envyconfig.load('tests/fixtures/basic_vault.yaml')
+    config = envyconfig.load('fixtures/basic_vault.yaml')
     assert config['foo'] == expected
 
 
@@ -62,7 +63,7 @@ def test_with_older_version_in_vault(broker):
             'status_code': 200,
         }
     )
-    config = envyconfig.load('tests/fixtures/basic_vault.yaml')
+    config = envyconfig.load('fixtures/basic_vault.yaml')
     assert config['older_foo'] == expected
 
 
@@ -74,7 +75,7 @@ def test_with_missing_secret_in_vault(broker):
         }
     )
     with pytest.raises(SecretNotFoundError):
-        envyconfig.load('tests/fixtures/missing_vault.yaml')
+        envyconfig.load('fixtures/missing_vault.yaml')
 
 
 def test_with_missing_secret_key_in_vault(broker):
@@ -85,4 +86,4 @@ def test_with_missing_secret_key_in_vault(broker):
         }
     )
     with pytest.raises(SecretNotFoundError):
-        envyconfig.load('tests/fixtures/missing_key_vault.yaml')
+        envyconfig.load('fixtures/missing_key_vault.yaml')
