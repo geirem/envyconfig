@@ -13,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='envyconfig',
-    version='1.0.0',
+    version='1.0.1',
     description='YAML reader with ENV interpolation.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -30,8 +30,8 @@ setup(
         'Programming Language :: Python :: 3 :: Only',
     ],
     keywords='configtools development',
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),
+    package_dir={'': 'envyconfig'},
+    packages=find_packages(where='envyconfig'),
     python_requires='>=3.8',
     extras_require={
         'test': ['pytest'],

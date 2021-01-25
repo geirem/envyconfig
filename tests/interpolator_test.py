@@ -1,4 +1,4 @@
-from src import envyconfig
+import envyconfig
 
 
 def test_multiple_colons():

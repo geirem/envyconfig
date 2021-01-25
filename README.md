@@ -13,8 +13,8 @@ Builds on the PyYAML package, with the following additions:
 ## Basic Usage
 
 ```python
->> > import src
->> > config = src.load('config.yaml')
+>> > import lib
+>> > config = lib.load('config.yaml')
 >> > print(config)
 {'foo': {'bar': 'baz'}}
 ```
