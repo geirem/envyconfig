@@ -1,2 +1,0 @@
-class UnsupportedInterpolationError(Exception):
-    pass

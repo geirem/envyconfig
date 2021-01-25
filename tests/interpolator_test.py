@@ -3,7 +3,7 @@ import envyconfig
 
 def test_multiple_colons():
     config = envyconfig.load('fixtures/complex.yaml')
-    assert config['foo'] == 'default:with:'
+    assert config['foo'] is None
 
 
 def test_that_we_duck_type_basic_defaults() -> None:
