@@ -1,6 +1,6 @@
 from mocks.gs_mock import MockSecrets
 import envyconfig
-from envyconfig.lib import methods
+from envyconfig import methods
 import pytest
 
 

@@ -2,7 +2,7 @@ import pytest
 
 from mocks.vault_broker_mock import VaultBrokerMock
 import envyconfig
-from envyconfig.lib import methods
+from envyconfig import methods
 from envyconfig.exceptions.ConfigurationError import ConfigurationError
 from envyconfig.exceptions.SecretNotFoundError import SecretNotFoundError
 
