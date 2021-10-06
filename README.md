@@ -15,8 +15,8 @@ Requires Python 3.8 or higher.
 ## Basic Usage
 
 ```python
->> > import lib
->> > config = lib.load('config.yaml')
+>> > import envyconfig
+>> > config = envyconfig.load(config_file='my_config.yaml')
 >> > print(config)
 {'foo': {'bar': 'baz'}}
 ```
@@ -26,16 +26,16 @@ Requires Python 3.8 or higher.
 foo:
 
    # Google Cloud Secret Manager: Loads "bar" from secret "bar" in the "my-project"
-   #  GCP project.  Defaults to "otherwise".
-   bar: ${gs:/my-project/bar:otherwise}
-   
-   # Environment variables: Loads "baz" from the environment variable "BAZ".  
-   # to "something_else".
+   #  GCP project.
+   bar: ${gs:/my-project/my-secret}
+
+   # Environment variables: Loads "baz" from the environment variable "BAZ".
+   # If this variable is not set, it defaults to "something_else".
    baz: ${env:BAZ:something_else}
-   
+
    # HashiCorp Vault: Loads "bam" from the secret "bam" mounted Vault mount
-   # "/path/to/secrets/mount/my-secrets/".  Defaults to "completely_different".
-   bam: ${vault:/path/to/secrets/mount/my-secrets/bam:completely_different}
+   # "/path/to/secrets/mount/my-secrets/".
+   bam: ${vault:/path/to/secrets/mount/my-secrets/bam}
 ```
 
 
@@ -57,9 +57,9 @@ key names.  It is allowed in default values, though.  So `$(env:REDIRECT_PAGE:ht
 Environment variables behave like you expect them to.
 
 ### Google Secret Manager
-This engine requires the optional dependency (or separate installation of) `googlesecrets`
-(ie. `pip install envyconfig[googlesecrets]`), and a pointer to your GCP key (`GOOGLE_APPLICATION_CREDENTIALS`) with
-the appropriate credentials.
+This engine requires the optional dependency (or separate installation of) `google-cloud-secret-manager`
+(i.e. `pip install envyconfig[google-cloud-secret-manager]`), and a pointer to your GCP key
+(`GOOGLE_APPLICATION_CREDENTIALS`), as described on [Authenticating as a service account](https://cloud.google.com/docs/authentication/production))
 
 #### Credits and further documentation
 * [GCP Python Secret Manager](https://github.com/googleapis/python-secret-manager)
