@@ -45,6 +45,6 @@ tqdm==4.56.0
 twine==3.4.1
 typing-extensions==3.10.0.0
 typing-inspect==0.6.0
-urllib3==1.26.4
+urllib3==1.26.5
 wcwidth==0.2.5
 webencodings==0.5.1
